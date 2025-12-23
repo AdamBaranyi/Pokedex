@@ -1,0 +1,21 @@
+# OS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node (if added later)
+node_modules/
+
+.env
+.envexample

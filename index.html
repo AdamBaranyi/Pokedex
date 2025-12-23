@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body onload="init()">
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container" onclick="resetPokedex()" style="cursor: pointer;">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Logo" class="logo">
+                <h1>Pokedex</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search Pokemon..." onkeyup="checkSearchInput()">
+                <button id="search-button" onclick="searchPokemon()" disabled>Search</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="pokedex-list" class="pokemon-grid">
+            <!-- Pokemon cards will be rendered here -->
+        </div>
+        
+        <div id="loading-container" class="loading-container d-none">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <div class="load-more-container">
+            <button id="load-more-btn" onclick="loadMorePokemon()">Load More</button>
+        </div>
+        
+        <div id="error-message" class="error-message d-none">
+            No Pokemon found.
+        </div>
+    </main>
+
+    <div id="overlay" class="overlay d-none" onclick="closeOverlay(event)">
+        <div class="overlay-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeOverlay(event)">×</button>
+            <div class="overlay-navigation">
+                <button class="nav-arrow left" onclick="previousPokemon()">&#10094;</button>
+                <div id="overlay-pokemon-data" class="pokemon-detail-card">
+                    <!-- Detail content rendered here -->
+                </div>
+                <button class="nav-arrow right" onclick="nextPokemon()">&#10095;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
