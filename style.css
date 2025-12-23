@@ -169,6 +169,40 @@ body {
     display: inline-block;
     z-index: 2;
 }
+/* Existing Styles... */
+
+.evolution-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.evo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.evo-card:hover {
+    transform: scale(1.1);
+}
+
+.evo-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.evo-arrow {
+    font-size: 1.5rem;
+    color: #666;
+    font-weight: bold;
+}
 
 /* Loading & Buttons */
 .load-more-container {
@@ -321,3 +355,4 @@ body {
 .bg-dark { background: linear-gradient(135deg, var(--type-dark), #2e231c); }
 .bg-steel { background: linear-gradient(135deg, var(--type-steel), #4a4a54); }
 .bg-flying { background: linear-gradient(135deg, var(--type-flying), #483d69); }
+

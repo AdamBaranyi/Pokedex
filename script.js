@@ -119,7 +119,49 @@ async function openDetail(id) {
     document.body.style.overflow = 'hidden';
 
     description = await fetchFlavorText(pokemon.speciesUrl);
-    renderOverlay(pokemon, description); // Re-render with text
+    renderOverlay(pokemon, description);
+    loadEvolutionChain(pokemon);
+}
+
+/* Evolution Chain Logic */
+async function loadEvolutionChain(pokemon) {
+    const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);
+    if (cached) { renderEvolutionChain(JSON.parse(cached)); return; }
+
+    try {
+        const species = await (await fetch(pokemon.speciesUrl)).json();
+        const chainData = await (await fetch(species.evolution_chain.url)).json();
+        const chain = parseEvolutionChain(chainData.chain);
+        
+        trySaveToStorage(`evo_chain_${pokemon.id}`, chain);
+        renderEvolutionChain(chain);
+    } catch (e) { console.error('Evo Error:', e); }
+}
+
+function parseEvolutionChain(chain) {
+    const result = [];
+    let current = chain;
+    while (current) {
+        const id = getPokemonIdFromUrl(current.species.url);
+        result.push({
+            name: current.species.name, id: id,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+        });
+        current = current.evolves_to[0];
+    }
+    return result;
+}
+
+function renderEvolutionChain(chain) {
+    const container = document.getElementById('evolution-container');
+    if (container) {
+        container.innerHTML = chain.map(p => `
+            <div class="evo-card" onclick="openDetail(${p.id})">
+                <img src="${p.image}" alt="${p.name}">
+                <span>${p.name}</span>
+            </div>
+        `).join('<span class="evo-arrow">→</span>');
+    }
 }
 
 async function fetchFlavorText(url) {
@@ -138,7 +180,6 @@ function renderOverlay(pokemon, description) {
     container.innerHTML = getOverlayHtml(pokemon, description);
 }
 
-/* Overlay Template*/
 function getOverlayHtml(pokemon, description) {
     return `
         <img src="${pokemon.image}" class="detail-img">
@@ -149,7 +190,10 @@ function getOverlayHtml(pokemon, description) {
         <p style="margin: 1rem 0; font-style: italic;">${description}</p>
         <div class="detail-stats">
             ${getStatsHtml(pokemon.stats)}
-        </div>`;
+        </div>
+        <h3 style="margin-top: 1.5rem;">Evolution</h3>
+        <div id="evolution-container" class="evolution-container">Loading...</div>
+    `;
 }
 
 function getStatsHtml(stats) {
