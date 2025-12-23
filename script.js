@@ -158,7 +158,7 @@ function renderEvolutionChain(chain) {
         container.innerHTML = chain.map(p => `
             <div class="evo-card" onclick="openDetail(${p.id})">
                 <img src="${p.image}" alt="${p.name}">
-                <span>${p.name}</span>
+                <span style="text-transform: capitalize;">${p.name}</span>
             </div>
         `).join('<span class="evo-arrow">→</span>');
     }
