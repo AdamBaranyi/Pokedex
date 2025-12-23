@@ -162,7 +162,12 @@ function getStatsHtml(stats) {
 }
 
 function formatStatName(name) {
-    return name.replace('special-', 'Sp. ').replace('attack', 'Atk').replace('defense', 'Def');
+    return name
+        .replace('special-', 'Sp. ')
+        .replace('attack', 'Atk')
+        .replace('defense', 'Def')
+        .replace('hp', 'Hp')
+        .replace('speed', 'Speed');
 }
 
 function closeOverlay(event) {

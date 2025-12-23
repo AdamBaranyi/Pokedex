@@ -15,7 +15,7 @@ Eine moderne, responsive Pokedex-Webanwendung, entwickelt mit JavaScript, HTML u
 
 - **HTML5**: Für die semantische Struktur.
 - **CSS3**: Für das Styling (Flexbox, Grid, Responsive Design).
-- **JavaScript (ES6+)**: Für die Logik, API-Kommunikation und DOM-Manipulation.
+- **JavaScript**: Für die Logik, API-Kommunikation und DOM-Manipulation.
 - **PokeAPI**: Externe REST-API für Pokemon-Daten.
 
 ## Installation & Nutzung
