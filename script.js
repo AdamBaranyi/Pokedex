@@ -125,109 +125,11 @@ async function openDetail(id) {
     description = await fetchFlavorText(pokemon.speciesUrl);
     renderOverlay(pokemon, description);
     loadEvolutionChain(pokemon);
+    loadTypeRelations(pokemon);
 }
 
-/* Evolution Chain Logic */
-async function loadEvolutionChain(pokemon) {
-    const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);
-    if (cached) { renderEvolutionChain(JSON.parse(cached)); return; }
-
-    try {
-        const species = await (await fetch(pokemon.speciesUrl)).json();
-        const chainData = await (await fetch(species.evolution_chain.url)).json();
-        const chain = parseEvolutionChain(chainData.chain);
-        
-        trySaveToStorage(`evo_chain_${pokemon.id}`, chain);
-        renderEvolutionChain(chain);
-    } catch (e) { console.error('Evo Error:', e); }
-}
-
-function parseEvolutionChain(chain) {
-    const result = [];
-    let current = chain;
-    while (current) {
-        const id = getPokemonIdFromUrl(current.species.url);
-        result.push({
-            name: current.species.name, id: id,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
-        });
-        current = current.evolves_to[0];
-    }
-    return result;
-}
-
-function renderEvolutionChain(chain) {
-    const container = document.getElementById('evolution-container');
-    if (container) {
-        container.innerHTML = chain.map(p => `
-            <div class="evo-card" onclick="openDetail(${p.id})">
-                <img src="${p.image}" alt="${p.name}">
-                <span style="text-transform: capitalize;">${p.name}</span>
-            </div>
-        `).join('<span class="evo-arrow">→</span>');
-    }
-}
-
-async function fetchFlavorText(url) {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const entry = data.flavor_text_entries.find(e => e.language.name === 'en');
-        return entry ? entry.flavor_text.replace(/\f/g, ' ') : 'No description available.';
-    } catch {
-        return 'Could not load description.';
-    }
-}
-
-function renderOverlay(pokemon, description) {
-    const container = document.getElementById('overlay-pokemon-data');
-    
-    // Reset and add dynamic background
-    container.className = 'pokemon-detail-card';
-    container.classList.add(`bg-${pokemon.types[0]}`);
-
-    container.innerHTML = getOverlayHtml(pokemon, description);
-}
-
-function getOverlayHtml(pokemon, description) {
-    return `
-        <img src="${pokemon.image}" class="detail-img">
-        <h2 class="pokemon-name" style="font-size: 2.5rem">${pokemon.name}</h2>
-        <div>
-            ${pokemon.types.map(t => `<span class="type-badge bg-${t}">${t}</span>`).join('')}
-        </div>
-        <p style="margin: 1rem 0; font-style: italic;">${description}</p>
-        <div class="detail-stats">
-            ${getStatsHtml(pokemon.stats)}
-        </div>
-        <h3 style="margin-top: 1.5rem;">Evolution</h3>
-        <div id="evolution-container" class="evolution-container">Loading...</div>
-    `;
-}
-
-function getStatsHtml(stats) {
-    return stats.map(s => `
-        <div class="stat-row">
-            <span>${formatStatName(s.stat.name)}</span>
-            <strong>${s.base_stat}</strong>
-        </div>
-    `).join('');
-}
-
-function formatStatName(name) {
-    return name
-        .replace('special-', 'Sp. ')
-        .replace('attack', 'Atk')
-        .replace('defense', 'Def')
-        .replace('hp', 'Hp')
-        .replace('speed', 'Speed');
-}
-
-function closeOverlay(event) {
-    if (event) event.preventDefault();
-    document.getElementById('overlay').classList.add('d-none');
-    document.body.style.overflow = 'auto';
-}
+/* Type Relations Logic managed in features.js */
+/* Evolution Chain Logic managed in features.js */
 
 /*Search Logic*/
 /*Search & Filter Logic*/

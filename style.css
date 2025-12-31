@@ -396,3 +396,28 @@ body {
     background-color: #ff5350;
     font-weight: bold;
 }
+/* Type Relations */
+.type-relations-container {
+    margin: 1.5rem 0;
+    width: 100%;
+}
+
+.relation-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.relation-title {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.relation-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
