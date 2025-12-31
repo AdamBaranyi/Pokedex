@@ -89,7 +89,11 @@ function getCardHtml(pokemon) {
 
 /*Load More Handler*/
 function loadMorePokemon() {
-    loadPokemon();
+    if (typeMode) {
+        loadTypePokemon(currentTypeFilter);
+    } else {
+        loadPokemon();
+    }
 }
 
 /*Loading State*/
@@ -177,6 +181,11 @@ async function fetchFlavorText(url) {
 
 function renderOverlay(pokemon, description) {
     const container = document.getElementById('overlay-pokemon-data');
+    
+    // Reset and add dynamic background
+    container.className = 'pokemon-detail-card';
+    container.classList.add(`bg-${pokemon.types[0]}`);
+
     container.innerHTML = getOverlayHtml(pokemon, description);
 }
 
@@ -221,13 +230,79 @@ function closeOverlay(event) {
 }
 
 /*Search Logic*/
+/*Search & Filter Logic*/
+let currentTypeFilter = 'all';
+let typeMode = false;
+let typePokemonList = []; // Stores the full list of {name, url} for the selected type
+
+async function filterByType(type) {
+    if (currentTypeFilter === type) return;
+    currentTypeFilter = type;
+    
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.toLowerCase() === type || (type === 'all' && btn.innerText === 'All')) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Reset List
+    allPokemon = [];
+    currentOffset = 0;
+    document.getElementById('pokedex-list').innerHTML = '';
+    resetSearchForm();
+
+    if (type === 'all') {
+        typeMode = false;
+        loadPokemon();
+    } else {
+        typeMode = true;
+        await loadTypePokemon(type);
+    }
+}
+
+async function loadTypePokemon(type) {
+    setLoadingState(true);
+    try {
+        if (currentOffset === 0) {
+           const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+           const data = await response.json();
+           typePokemonList = data.pokemon.map(p => p.pokemon);
+        }
+
+        const batch = typePokemonList.slice(currentOffset, currentOffset + LIMIT);
+        const promises = batch.map(p => getPokemonDetails(p.url));
+        const newPokemon = await Promise.all(promises);
+
+        allPokemon = [...allPokemon, ...newPokemon];
+        renderPokemonBatch(newPokemon);
+        currentOffset += LIMIT;
+
+        // Hide Load More if end reached
+        if (currentOffset >= typePokemonList.length) {
+             document.getElementById('load-more-btn').style.display = 'none';
+        } else {
+             document.getElementById('load-more-btn').style.display = 'inline-block';
+        }
+
+    } catch (e) {
+        console.error('Type Load Error:', e);
+    } finally {
+        setLoadingState(false);
+    }
+}
+
+
 function searchPokemon() {
     const query = document.getElementById('search-input').value.toLowerCase();
     const list = document.getElementById('pokedex-list');
 
-    if (query.length < 3) return;
-
     list.innerHTML = '';
+    
+    // In typeMode, we filter the ALREADY LOADED pokemon from that type
+    // Note: To search the ENTIRE type list would require loading all of them, which we skip for performance.
+    // We stick to searching currently rendered items.
     const filtered = allPokemon.filter(p => p.name.includes(query));
 
     updateSearchResult(filtered, list);
@@ -242,10 +317,16 @@ function updateSearchResult(filtered, list) {
     }
 }
 
-function checkSearchInput() {
+function handleSearchKeyUp(event) {
     const input = document.getElementById('search-input');
     const btn = document.getElementById('search-button');
-    btn.disabled = input.value.length < 3;
+    const isValid = input.value.length >= 3;
+    
+    btn.disabled = !isValid;
+
+    if (event.key === 'Enter' && isValid) {
+        searchPokemon();
+    }
 }
 
 /*Navigation*/
@@ -263,12 +344,10 @@ function previousPokemon() {
     }
 }
 /*Reset Pokedex*/
+/*Reset Pokedex*/
 function resetPokedex() {
-    currentOffset = 0;
-    allPokemon = [];
-    document.getElementById('pokedex-list').innerHTML = '';
-    resetSearchForm();
-    loadPokemon();
+    currentTypeFilter = null; // Force value change to trigger reload
+    filterByType('all'); 
 }
 
 function resetSearchForm() {

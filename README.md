@@ -5,11 +5,13 @@ Eine moderne, responsive Pokedex-Webanwendung, entwickelt mit JavaScript, HTML u
 ## Funktionen
 
 - **Dynamisches Pokemon-Raster**: Lädt und zeigt Pokemon mit Lazy Loading an.
-- **Detailansicht**: Klicke auf ein Pokemon, um detaillierte Statistiken, Typen und Beschreibungen zu sehen.
-- **Suchfunktion**: Suche nach Pokemon-Namen mit Echtzeit-Validierung.
-- **Effiziente Datenverarbeitung**: Nutzt LocalStorage zum Cachen von Details, um Ladezeiten zu minimieren.
-- **Responsive Design**: Funktioniert perfekt auf Desktop- und Mobilgeräten.
-- **Modernes Design**: Typ-spezifische Farben und flüssige Animationen.
+- **Typen-Filter**: Filtere Pokemon nach Typ (z.B. Feuer, Wasser) direkt über die API.
+- **Suchfunktion**: Suche nach Namen (Startet mit Enter oder Klick).
+- **Detailansicht & Evolution**: Zeigt Stats und die komplette Entwicklungskette an.
+- **Reset-Funktion**: Klicke auf das Logo, um die App zurückzusetzen.
+- **Effiziente Datenverarbeitung**: Nutzt LocalStorage zum Cachen von Details & Evolutionen.
+- **Modernes Design**: Dynamische Hintergrundfarben je nach Typ und Pokeball-Ladeanimation.
+- **Responsive Design**: Optimiert für Desktop und Mobile.
 
 ## Tech Stack
 

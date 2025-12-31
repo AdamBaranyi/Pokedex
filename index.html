@@ -19,9 +19,30 @@
                 <h1>Pokedex</h1>
             </div>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search Pokemon..." onkeyup="checkSearchInput()">
+                <input type="text" id="search-input" placeholder="Search Pokemon..." onkeyup="handleSearchKeyUp(event)">
                 <button id="search-button" onclick="searchPokemon()" disabled>Search</button>
             </div>
+        </div>
+        <div class="filter-wrapper" id="filter-wrapper">
+             <button class="filter-btn active" onclick="filterByType('all')">All</button>
+             <button class="filter-btn" onclick="filterByType('grass')">Grass</button>
+             <button class="filter-btn" onclick="filterByType('fire')">Fire</button>
+             <button class="filter-btn" onclick="filterByType('water')">Water</button>
+             <button class="filter-btn" onclick="filterByType('bug')">Bug</button>
+             <button class="filter-btn" onclick="filterByType('normal')">Normal</button>
+             <button class="filter-btn" onclick="filterByType('poison')">Poison</button>
+             <button class="filter-btn" onclick="filterByType('electric')">Electric</button>
+             <button class="filter-btn" onclick="filterByType('ground')">Ground</button>
+             <button class="filter-btn" onclick="filterByType('fairy')">Fairy</button>
+             <button class="filter-btn" onclick="filterByType('flying')">Flying</button>
+             <button class="filter-btn" onclick="filterByType('fighting')">Fighting</button>
+             <button class="filter-btn" onclick="filterByType('psychic')">Psychic</button>
+             <button class="filter-btn" onclick="filterByType('rock')">Rock</button>
+             <button class="filter-btn" onclick="filterByType('ghost')">Ghost</button>
+             <button class="filter-btn" onclick="filterByType('ice')">Ice</button>
+             <button class="filter-btn" onclick="filterByType('dragon')">Dragon</button>
+             <button class="filter-btn" onclick="filterByType('steel')">Steel</button>
+             <button class="filter-btn" onclick="filterByType('dark')">Dark</button>
         </div>
     </header>
 
@@ -31,7 +52,7 @@
         </div>
         
         <div id="loading-container" class="loading-container d-none">
-            <div class="spinner"></div>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="pokeball-spinner" alt="Loading">
             <p>Loading...</p>
         </div>
 
