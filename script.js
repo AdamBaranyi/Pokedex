@@ -136,10 +136,6 @@ async function openDetail(id) {
     loadTypeRelations(pokemon);
 }
 
-
-
-
-/*Search & Filter Logic*/
 let currentTypeFilter = 'all';
 let typeMode = false;
 let typePokemonList = []; 
@@ -241,8 +237,6 @@ function handleSearchKeyUp(event) {
     }
 }
 
-/*Navigation*/
-
 // Geht zum nächsten Pokémon
 function nextPokemon() {
     const index = allPokemon.findIndex(p => p.id === currentDetailId);
@@ -259,15 +253,11 @@ function previousPokemon() {
     }
 }
 
-/*Reset Pokedex*/
-
 // Setzt den Pokedex komplett zurück
 function resetPokedex() {
     currentTypeFilter = null; 
     filterByType('all'); 
 }
-
-/* Filter Toggle */
 
 // Zeigt/Versteckt Filter auf Mobile
 function toggleFilters() {
@@ -275,16 +265,12 @@ function toggleFilters() {
     wrapper.classList.toggle('show');
 }
 
-/*Reset Search Form*/
-
 // Leert das Suchformular
 function resetSearchForm() {
     document.getElementById('search-input').value = '';
     document.getElementById('error-message').classList.add('d-none');
     document.getElementById('search-button').disabled = true;
 }
-
-/*Initialization*/
 
 // Initialisiert die App
 function init() {

@@ -1,6 +1,5 @@
-/* Components */
-
-/* Background Type Classes */
+/* Komponenten */
+/* Hintergrund-Typ-Klassen */
 .bg-grass { background: linear-gradient(135deg, var(--type-grass), #2e4a1a); }
 .bg-fire { background: linear-gradient(135deg, var(--type-fire), #5c2600); }
 .bg-water { background: linear-gradient(135deg, var(--type-water), #1a3c7a); }
@@ -70,7 +69,7 @@
     z-index: 2;
 }
 
-/* Evolution Chain */
+/* Entwicklungskette */
 .evolution-container {
     display: flex;
     align-items: center;
@@ -104,7 +103,7 @@
     font-weight: bold;
 }
 
-/* Loading & Buttons */
+/* Laden & Buttons */
 .load-more-container {
     text-align: center;
     margin: 3rem 0;
@@ -160,7 +159,7 @@
     padding: 2rem 0; 
 }
 
-/* Scrollbar niceness for overlay */
+/* Scrollleiste für Overlay */
 .overlay::-webkit-scrollbar { width: 8px; }
 .overlay::-webkit-scrollbar-track { background: transparent; }
 .overlay::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
@@ -235,7 +234,7 @@
     justify-content: space-between;
 }
 
-/* Filter Styles */
+/* Filter-Stile */
 .filter-wrapper {
     display: flex;
     overflow-x: auto;
@@ -273,7 +272,7 @@
     font-weight: bold;
 }
 
-/* Filter Toggle Button */
+/* Filter Umschalt-Button */
 .filter-toggle-btn {
     padding: 0.8rem;
     border-radius: 8px;
@@ -286,7 +285,7 @@
     display: none; 
 }
 
-/* Type Relations */
+/* Typ-Beziehungen */
 .type-relations-container {
     margin: 1.5rem 0;
     width: 100%;

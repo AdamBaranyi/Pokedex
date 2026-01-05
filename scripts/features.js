@@ -117,8 +117,6 @@ function renderTypeRelations(relations) {
     `;
 }
 
-/* Evolution Chain */
-
 // Lädt die Entwicklungskette
 async function loadEvolutionChain(pokemon) {
     const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);

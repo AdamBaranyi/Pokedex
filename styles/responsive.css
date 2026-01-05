@@ -1,4 +1,4 @@
-/* Responsive Rules */
+/* Responsive Regeln */
 
 @media (max-width: 600px) {
     .header-content { 
@@ -28,7 +28,7 @@
         display: block; 
     }
 
-    /* Collapsible Filters on Mobile */
+    /* Einklappbare Filter auf Mobilgeräten */
     .filter-wrapper {
         display: none; 
         flex-wrap: wrap;
@@ -55,7 +55,7 @@
 
     .logo-container h1 { font-size: 1.5rem; }
     
-    /* Grid adjustments for Mobile */
+    /* Raster-Anpassungen für Mobilgeräte */
     .pokemon-grid { 
         gap: 1rem;
     }
@@ -80,7 +80,7 @@
 }
 
 @media (max-width: 400px) {
-    /* Container Strict containment */
+    /* Strenge Container-Begrenzung */
     .main-content { 
         padding: 0 5px !important; 
         margin: 1rem auto;
@@ -95,14 +95,14 @@
         max-width: 100vw;
     }
     
-    /* Grid adjustments */
+    /* Raster-Anpassungen */
     .pokemon-grid { 
         flex-direction: column;
         align-items: stretch; 
         gap: 15px;
     }
     
-    /* Card downsizing */
+    /* Karten-Verkleinerung */
     .pokemon-card { 
         width: 100%; 
         min-width: 0 !important; 
@@ -140,7 +140,7 @@
         justify-content: center; 
     }
 
-    /* Search Bar Compactness */
+    /* Kompakte Suchleiste */
     .search-container { gap: 5px; }
     #search-input { 
         font-size: 0.85rem; 
