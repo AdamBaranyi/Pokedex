@@ -225,6 +225,7 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    justify-content: center; /* Center items */
 }
 
 .filter-wrapper::-webkit-scrollbar {
