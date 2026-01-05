@@ -25,12 +25,12 @@
     }
 
     .filter-toggle-btn {
-        display: block; /* Show on mobile */
+        display: block; 
     }
 
     /* Collapsible Filters on Mobile */
     .filter-wrapper {
-        display: none; /* Hidden initially */
+        display: none; 
         flex-wrap: wrap;
         justify-content: center;
         padding: 0;
@@ -43,9 +43,9 @@
         display: flex;
         height: auto;
         opacity: 1;
-        padding: 10px 5px; /* Less padding */
+        padding: 10px 5px; 
         border-top: 1px solid #444;
-        gap: 5px; /* Smaller gap */
+        gap: 5px; 
     }
     
     .filter-btn {
@@ -62,7 +62,6 @@
     
     .pokemon-card { 
         padding: 1rem; 
-        /* On tablet/large phone, allow 2 columns if space permits, or 1 if narrow */
         min-width: 45%; 
     }
     
@@ -81,7 +80,7 @@
 }
 
 @media (max-width: 400px) {
-    /* Container fixes - Strict containment */
+    /* Container Strict containment */
     .main-content { 
         padding: 0 5px !important; 
         margin: 1rem auto;
@@ -99,16 +98,15 @@
     /* Grid adjustments */
     .pokemon-grid { 
         flex-direction: column;
-        align-items: stretch; /* Cards take full width */
+        align-items: stretch; 
         gap: 15px;
     }
     
-    /* Card downsizing - CRITICAL FIXES */
+    /* Card downsizing */
     .pokemon-card { 
         width: 100%; 
-        max-width: 100%; /* Ensure it never exceeds parent */
-        min-width: 0 !important; /* Override the 250px global min-width */
-        padding: 10px; /* Minimal padding */
+        min-width: 0 !important; 
+        padding: 10px;
         min-height: auto; 
         border-radius: 12px;
         box-sizing: border-box; 
@@ -116,7 +114,7 @@
     }
     
     .pokemon-image { 
-        width: 80px; /* Even smaller to be safe */
+        width: 80px; 
         height: 80px; 
         margin-bottom: 0.5rem;
     }
@@ -124,10 +122,10 @@
     .pokemon-name { 
         font-size: 1.2rem !important; 
         margin-bottom: 0.2rem;
-        word-break: break-all; /* Prevent long names from breaking layout */
+        word-break: break-all;
     }
     
-    /* Ensure badges don't force width */
+    
     .type-badge {
         padding: 0.2rem 0.6rem;
         font-size: 0.75rem;
@@ -135,7 +133,7 @@
         white-space: nowrap;
     }
     
-    /* Wrap badge container to be safe */
+    
     .pokemon-card > div { 
         display: flex; 
         flex-wrap: wrap; 
@@ -147,11 +145,11 @@
     #search-input { 
         font-size: 0.85rem; 
         padding: 0.5rem; 
-        min-width: 0; /* Allow shrinking */
+        min-width: 0; 
     }
     #search-button, .filter-toggle-btn { padding: 0.5rem; }
 
-    /* Overlay fixes */
+    /* Overlay */
     .overlay-content { 
         padding: 1rem 0.5rem; 
         width: 95%;
@@ -164,7 +162,7 @@
     .stat-row { 
         font-size: 0.75rem; 
         padding: 0.4rem;
-        flex-wrap: wrap; /* Allow stats to wrap if needed */
+        flex-wrap: wrap; 
     }
 }
 

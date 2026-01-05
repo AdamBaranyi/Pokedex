@@ -1,5 +1,25 @@
 /* Components */
 
+/* Background Type Classes */
+.bg-grass { background: linear-gradient(135deg, var(--type-grass), #2e4a1a); }
+.bg-fire { background: linear-gradient(135deg, var(--type-fire), #5c2600); }
+.bg-water { background: linear-gradient(135deg, var(--type-water), #1a3c7a); }
+.bg-bug { background: linear-gradient(135deg, var(--type-bug), #3a4209); }
+.bg-normal { background: linear-gradient(135deg, var(--type-normal), #4a4a35); }
+.bg-poison { background: linear-gradient(135deg, var(--type-poison), #4a1a49); }
+.bg-electric { background: linear-gradient(135deg, var(--type-electric), #6e5c0d); }
+.bg-ground { background: linear-gradient(135deg, var(--type-ground), #5c4a1e); }
+.bg-fairy { background: linear-gradient(135deg, var(--type-fairy), #6b2e4b); }
+.bg-fighting { background: linear-gradient(135deg, var(--type-fighting), #5c1613); }
+.bg-psychic { background: linear-gradient(135deg, var(--type-psychic), #6e1a38); }
+.bg-rock { background: linear-gradient(135deg, var(--type-rock), #4a400f); }
+.bg-ghost { background: linear-gradient(135deg, var(--type-ghost), #322542); }
+.bg-ice { background: linear-gradient(135deg, var(--type-ice), #385e5d); }
+.bg-dragon { background: linear-gradient(135deg, var(--type-dragon), #32167a); }
+.bg-dark { background: linear-gradient(135deg, var(--type-dark), #2e231c); }
+.bg-steel { background: linear-gradient(135deg, var(--type-steel), #4a4a54); }
+.bg-flying { background: linear-gradient(135deg, var(--type-flying), #483d69); }
+
 .pokemon-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -134,10 +154,10 @@
     background: rgba(0,0,0,0.85);
     z-index: 1000;
     backdrop-filter: blur(5px);
-    overflow-y: auto; /* Enable scroll on the wrapper */
+    overflow-y: auto; 
     display: flex;
-    align-items: flex-start; /* Start from top */
-    padding: 2rem 0; /* Vertical breathing room */
+    align-items: flex-start; 
+    padding: 2rem 0; 
 }
 
 /* Scrollbar niceness for overlay */
@@ -154,7 +174,7 @@
     position: relative;
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    margin: auto; /* Center horizontally and vertically (flex item) */
+    margin: auto; 
 }
 
 .close-btn {
@@ -225,7 +245,7 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-    justify-content: center; /* Center items */
+    justify-content: center; 
 }
 
 .filter-wrapper::-webkit-scrollbar {
@@ -263,7 +283,7 @@
     font-weight: bold;
     cursor: pointer;
     font-size: 1.2rem;
-    display: none; /* Hidden on desktop */
+    display: none; 
 }
 
 /* Type Relations */
@@ -292,22 +312,3 @@
     gap: 0.5rem;
 }
 
-/* Background Type Classes */
-.bg-grass { background: linear-gradient(135deg, var(--type-grass), #2e4a1a); }
-.bg-fire { background: linear-gradient(135deg, var(--type-fire), #5c2600); }
-.bg-water { background: linear-gradient(135deg, var(--type-water), #1a3c7a); }
-.bg-bug { background: linear-gradient(135deg, var(--type-bug), #3a4209); }
-.bg-normal { background: linear-gradient(135deg, var(--type-normal), #4a4a35); }
-.bg-poison { background: linear-gradient(135deg, var(--type-poison), #4a1a49); }
-.bg-electric { background: linear-gradient(135deg, var(--type-electric), #6e5c0d); }
-.bg-ground { background: linear-gradient(135deg, var(--type-ground), #5c4a1e); }
-.bg-fairy { background: linear-gradient(135deg, var(--type-fairy), #6b2e4b); }
-.bg-fighting { background: linear-gradient(135deg, var(--type-fighting), #5c1613); }
-.bg-psychic { background: linear-gradient(135deg, var(--type-psychic), #6e1a38); }
-.bg-rock { background: linear-gradient(135deg, var(--type-rock), #4a400f); }
-.bg-ghost { background: linear-gradient(135deg, var(--type-ghost), #322542); }
-.bg-ice { background: linear-gradient(135deg, var(--type-ice), #385e5d); }
-.bg-dragon { background: linear-gradient(135deg, var(--type-dragon), #32167a); }
-.bg-dark { background: linear-gradient(135deg, var(--type-dark), #2e231c); }
-.bg-steel { background: linear-gradient(135deg, var(--type-steel), #4a4a54); }
-.bg-flying { background: linear-gradient(135deg, var(--type-flying), #483d69); }

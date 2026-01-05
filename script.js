@@ -4,6 +4,10 @@ let isLoading = false;
 let currentDetailId = 0;
 const LIMIT = 30;
 
+/**
+ * Loads a batch of Pokemon from the PokeAPI.
+ * Uses pagination via currentOffset.
+ */
 async function loadPokemon() {
     if (isLoading) return;
     setLoadingState(true);
@@ -16,6 +20,11 @@ async function loadPokemon() {
     finally { setLoadingState(false); }
 }
 
+/**
+ * Processes a list of Pokemon URLs, fetches details for each,
+ * and updates the global list and UI.
+ * @param {string[]} urls - List of Pokemon URLs to fetch.
+ */
 async function processPokemonBatch(urls) {
     const promises = urls.map(url => getPokemonDetails(url));
     const newPokemon = await Promise.all(promises);
@@ -23,10 +32,21 @@ async function processPokemonBatch(urls) {
     renderPokemonBatch(newPokemon);
 }
 
+/**
+ * Helper to add new items to an array without duplicates (simplified).
+ * @param {Array} original - Original array.
+ * @param {Array} newItems - New items to add.
+ * @returns {Array} Combined array.
+ */
 function pushUnique(original, newItems) {
     return [...original, ...newItems]; // Simplified for now
 }
 
+/**
+ * Fetches or retrieves cached Pokemon details.
+ * @param {string} url - The URL for the Pokemon data.
+ * @returns {Promise<Object>} Pokemon details object.
+ */
 async function getPokemonDetails(url) {
     const id = getPokemonIdFromUrl(url);
     const cached = localStorage.getItem(`pokemon_${id}`);
@@ -34,6 +54,12 @@ async function getPokemonDetails(url) {
     return await fetchAndCachePokemon(url, id);
 }
 
+/**
+ * Fetches Pokemon data from API, simplifies it, and caches it.
+ * @param {string} url - API URL.
+ * @param {string} id - Pokemon ID.
+ * @returns {Promise<Object>} Simplified Pokemon object.
+ */
 async function fetchAndCachePokemon(url, id) {
     const data = await (await fetch(url)).json();
     const simplified = simplifyPokemonData(data);
@@ -41,15 +67,30 @@ async function fetchAndCachePokemon(url, id) {
     return simplified;
 }
 
+/**
+ * Extracts Pokemon ID from its API URL.
+ * @param {string} url - The URL (e.g., .../pokemon/1/).
+ * @returns {string} The ID (e.g., "1").
+ */
 function getPokemonIdFromUrl(url) {
     return url.split('/').filter(Boolean).pop();
 }
 
+/**
+ * Safely tries to save data to localStorage.
+ * @param {string} id - Identifier key.
+ * @param {Object} data - Data to stringify and save.
+ */
 function trySaveToStorage(id, data) {
     try { localStorage.setItem(`pokemon_${id}`, JSON.stringify(data)); } 
     catch (e) { }
 }
 
+/**
+ * Reduces raw API data to essential fields needed for the app.
+ * @param {Object} data - Raw API response.
+ * @returns {Object} Simplified Pokemon object.
+ */
 function simplifyPokemonData(data) {
     return {
         id: data.id,
@@ -61,6 +102,10 @@ function simplifyPokemonData(data) {
     };
 }
 
+/**
+ * Renders a list of Pokemon cards to the DOM.
+ * @param {Array} pokemonList - List of Pokemon objects to render.
+ */
 function renderPokemonBatch(pokemonList) {
     const list = document.getElementById('pokedex-list');
     let html = '';
@@ -70,6 +115,11 @@ function renderPokemonBatch(pokemonList) {
     list.innerHTML += html;
 }
 
+/**
+ * Generates HTML for a single Pokemon card.
+ * @param {Object} pokemon - Pokemon object.
+ * @returns {string} HTML string.
+ */
 function getCardHtml(pokemon) {
     const mainType = pokemon.types[0];
     return `
@@ -83,6 +133,10 @@ function getCardHtml(pokemon) {
     </div>`;
 }
 
+/**
+ * Handles the "Load More" button click.
+ * Loads either general Pokemon or typed-filtered Pokemon based on mode.
+ */
 function loadMorePokemon() {
     if (typeMode) {
         loadTypePokemon(currentTypeFilter);
@@ -91,6 +145,10 @@ function loadMorePokemon() {
     }
 }
 
+/**
+ * Toggles the loading state UI (spinner, button disable).
+ * @param {boolean} loading - True if loading, false otherwise.
+ */
 function setLoadingState(loading) {
     isLoading = loading;
     const spinner = document.getElementById('loading-container');
@@ -106,11 +164,17 @@ function setLoadingState(loading) {
 }
 
 /* Details / Lazy Loading*/
+
+/**
+ * Opens the specific Pokemon detail overlay.
+ * Initiates async fetching of extra data (flavor text, evolution, etc.).
+ * @param {number} id - The Pokemon ID to open.
+ */
 async function openDetail(id) {
     currentDetailId = id;
     const pokemon = allPokemon.find(p => p.id === id);
     if (!pokemon) return;
-    // Lazy Load Species Data (Description)
+
     let description = 'Loading description...';
     renderOverlay(pokemon, description);
     document.getElementById('overlay').classList.remove('d-none');
@@ -122,15 +186,19 @@ async function openDetail(id) {
     loadTypeRelations(pokemon);
 }
 
-/* Type Relations Logic managed in features.js */
-/* Evolution Chain Logic managed in features.js */
 
-/*Search Logic*/
+
+
 /*Search & Filter Logic*/
 let currentTypeFilter = 'all';
 let typeMode = false;
-let typePokemonList = []; // Stores the full list of {name, url} for the selected type
+let typePokemonList = []; 
 
+/**
+ * Filters the displayed Pokemon by a specific type (or 'all').
+ * Handles UI updates and data reloading.
+ * @param {string} type - The type to filter by (e.g., 'fire', 'water').
+ */
 async function filterByType(type) {
     if (currentTypeFilter === type) return;
     currentTypeFilter = type;
@@ -146,6 +214,10 @@ async function filterByType(type) {
     }
 }
 
+/**
+ * Updates the visual state of filter buttons.
+ * @param {string} type - The currently active type.
+ */
 function updateFilterUI(type) {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -155,6 +227,9 @@ function updateFilterUI(type) {
     });
 }
 
+/**
+ * Resets the Pokedex data state (clear list, reset offset, clear search).
+ */
 function resetPokedexData() {
     allPokemon = [];
     currentOffset = 0;
@@ -162,6 +237,10 @@ function resetPokedexData() {
     resetSearchForm();
 }
 
+/**
+ * Loads a batch of Pokemon of a specific type.
+ * @param {string} type - The type to load.
+ */
 async function loadTypePokemon(type) {
     setLoadingState(true);
     try {
@@ -176,31 +255,43 @@ async function loadTypePokemon(type) {
     } finally { setLoadingState(false); }
 }
 
+/**
+ * Fetches the list of all Pokemon for a specific type.
+ * @param {string} type - The type name.
+ */
 async function fetchTypeData(type) {
     const data = await (await fetch(`https://pokeapi.co/api/v2/type/${type}`)).json();
     typePokemonList = data.pokemon.map(p => p.pokemon);
 }
 
+/**
+ * Updates visibility of the 'Load More' button based on data availability.
+ */
 function updateLoadMoreButton() {
     const btn = document.getElementById('load-more-btn');
     btn.style.display = currentOffset >= typePokemonList.length ? 'none' : 'inline-block';
 }
 
 
+/**
+ * Filters the current Pokemon list based on the search input.
+ */
 function searchPokemon() {
     const query = document.getElementById('search-input').value.toLowerCase();
     const list = document.getElementById('pokedex-list');
 
     list.innerHTML = '';
     
-    // In typeMode, we filter the ALREADY LOADED pokemon from that type
-    // Note: To search the ENTIRE type list would require loading all of them, which we skip for performance.
-    // We stick to searching currently rendered items.
     const filtered = allPokemon.filter(p => p.name.includes(query));
 
     updateSearchResult(filtered, list);
 }
 
+/**
+ * Renders search results or shows an error message if none found.
+ * @param {Array} filtered - Filtered Pokemon list.
+ * @param {HTMLElement} list - DOM element container.
+ */
 function updateSearchResult(filtered, list) {
     if (filtered.length === 0) {
         document.getElementById('error-message').classList.remove('d-none');
@@ -210,6 +301,10 @@ function updateSearchResult(filtered, list) {
     }
 }
 
+/**
+ * Handles key interactions in the search input (Enter key & validation).
+ * @param {KeyboardEvent} event - The key event.
+ */
 function handleSearchKeyUp(event) {
     const input = document.getElementById('search-input');
     const btn = document.getElementById('search-button');
@@ -223,6 +318,10 @@ function handleSearchKeyUp(event) {
 }
 
 /*Navigation*/
+
+/**
+ * Navigate to the next Pokemon in the list.
+ */
 function nextPokemon() {
     const index = allPokemon.findIndex(p => p.id === currentDetailId);
     if (index >= 0 && index < allPokemon.length - 1) {
@@ -230,26 +329,41 @@ function nextPokemon() {
     }
 }
 
+/**
+ * Navigate to the previous Pokemon in the list.
+ */
 function previousPokemon() {
     const index = allPokemon.findIndex(p => p.id === currentDetailId);
     if (index > 0) {
         openDetail(allPokemon[index - 1].id);
     }
 }
+
 /*Reset Pokedex*/
-/*Reset Pokedex*/
+
+/**
+ * Resets the Pokedex to its initial state (All types).
+ */
 function resetPokedex() {
-    currentTypeFilter = null; // Force value change to trigger reload
+    currentTypeFilter = null; 
     filterByType('all'); 
 }
 
 /* Filter Toggle */
+
+/**
+ * Toggles visibility of the filter menu on mobile devices.
+ */
 function toggleFilters() {
     const wrapper = document.getElementById('filter-wrapper');
     wrapper.classList.toggle('show');
 }
 
 /*Reset Search Form*/
+
+/**
+ * Clears the search input and resets error messages.
+ */
 function resetSearchForm() {
     document.getElementById('search-input').value = '';
     document.getElementById('error-message').classList.add('d-none');
@@ -257,6 +371,10 @@ function resetSearchForm() {
 }
 
 /*Initialization*/
+
+/**
+ * Initializes the application by loading initial data.
+ */
 function init() {
     resetSearchForm();
     loadPokemon();

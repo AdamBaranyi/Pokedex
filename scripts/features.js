@@ -1,3 +1,8 @@
+/**
+ * Fetches the English flavor text (description) for a Pokemon species.
+ * @param {string} url - The URL of the species data.
+ * @returns {Promise<string>} The flavor text or a fallback message.
+ */
 async function fetchFlavorText(url) {
     try {
         const response = await fetch(url);
@@ -9,6 +14,11 @@ async function fetchFlavorText(url) {
     }
 }
 
+/**
+ * Renders the Pokemon details overlay with data and description.
+ * @param {Object} pokemon - The Pokemon data object.
+ * @param {string} description - The flavor text description.
+ */
 function renderOverlay(pokemon, description) {
     const container = document.getElementById('overlay-pokemon-data');
     
@@ -18,6 +28,12 @@ function renderOverlay(pokemon, description) {
     container.innerHTML = getOverlayHtml(pokemon, description);
 }
 
+/**
+ * Generates the HTML string for the overlay content.
+ * @param {Object} pokemon - The Pokemon data object.
+ * @param {string} description - The flavor text description.
+ * @returns {string} The HTML string.
+ */
 function getOverlayHtml(pokemon, description) {
     return `
         <img src="${pokemon.image}" class="detail-img">
@@ -37,6 +53,11 @@ function getOverlayHtml(pokemon, description) {
     `;
 }
 
+/**
+ * Generates HTML for the Pokemon's stats.
+ * @param {Array} stats - Array of stat objects.
+ * @returns {string} HTML string for stats.
+ */
 function getStatsHtml(stats) {
     return stats.map(s => `
         <div class="stat-row">
@@ -46,6 +67,11 @@ function getStatsHtml(stats) {
     `).join('');
 }
 
+/**
+ * Formats stat names for better readability (e.g., 'special-attack' -> 'Sp. Atk').
+ * @param {string} name - The raw stat name.
+ * @returns {string} The formatted name.
+ */
 function formatStatName(name) {
     return name
         .replace('special-', 'Sp. ')
@@ -55,12 +81,21 @@ function formatStatName(name) {
         .replace('speed', 'Speed');
 }
 
+/**
+ * Closes the detail overlay and restores body scrolling.
+ * @param {Event} event - The click event (optional).
+ */
 function closeOverlay(event) {
     if (event) event.preventDefault();
     document.getElementById('overlay').classList.add('d-none');
     document.body.style.overflow = 'auto';
 }
 
+/**
+ * Loads and calculates type relations (strengths/weaknesses) for a Pokemon.
+ * Uses caching to minimize API requests.
+ * @param {Object} pokemon - The Pokemon data object.
+ */
 async function loadTypeRelations(pokemon) {
     const cached = localStorage.getItem(`type_relations_${pokemon.id}`);
     if (cached) { renderTypeRelations(JSON.parse(cached)); return; }
@@ -74,10 +109,20 @@ async function loadTypeRelations(pokemon) {
     } catch (e) { console.error('Relations Error:', e); }
 }
 
+/**
+ * Fetches damage relation data for a list of types.
+ * @param {Array<string>} types - List of type names.
+ * @returns {Promise<Array>} Array of damage relation data.
+ */
 async function fetchDamageRelations(types) {
     return Promise.all(types.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(res => res.json())));
 }
 
+/**
+ * Calculates strong/weak relations based on type data.
+ * @param {Array} typeData - Raw type data from API.
+ * @returns {Object} Object containing arrays of strong and weak type names.
+ */
 function calculateTypeRelations(typeData) {
     const relations = { strong: new Set(), weak: new Set() };
     typeData.forEach(data => {
@@ -87,6 +132,10 @@ function calculateTypeRelations(typeData) {
     return { strong: Array.from(relations.strong), weak: Array.from(relations.weak) };
 }
 
+/**
+ * Renders the type relations block in the overlay.
+ * @param {Object} relations - Object with strong/weak arrays.
+ */
 function renderTypeRelations(relations) {
     const container = document.getElementById('type-relations-container');
     if (!container) return; // Wait for overlay render
@@ -107,7 +156,13 @@ function renderTypeRelations(relations) {
     `;
 }
 
-/* Feature: Evolution Chain */
+/* Evolution Chain */
+
+/**
+ * Loads and renders the evolution chain for a Pokemon.
+ * Uses caching.
+ * @param {Object} pokemon - The Pokemon data object.
+ */
 async function loadEvolutionChain(pokemon) {
     const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);
     if (cached) { renderEvolutionChain(JSON.parse(cached)); return; }
@@ -122,6 +177,11 @@ async function loadEvolutionChain(pokemon) {
     } catch (e) { console.error('Evo Error:', e); }
 }
 
+/**
+ * Parses the recursive evolution chain data into a flat array.
+ * @param {Object} chain - The recursive chain object.
+ * @returns {Array} Array of evolution stages.
+ */
 function parseEvolutionChain(chain) {
     const result = [];
     let current = chain;
@@ -136,6 +196,10 @@ function parseEvolutionChain(chain) {
     return result;
 }
 
+/**
+ * Renders the evolution chain cards.
+ * @param {Array} chain - List of evolution stages.
+ */
 function renderEvolutionChain(chain) {
     const container = document.getElementById('evolution-container');
     if (container) {
