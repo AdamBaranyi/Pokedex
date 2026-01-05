@@ -34,3 +34,4 @@ Eine moderne, responsive Pokedex-Webanwendung, entwickelt mit JavaScript, HTML u
 - `responsive.css`: Media Queries für mobile Anpassungen.
 - `script.js`: Kern-Logik (Initialisierung, Suche, Liste).
 - `features.js`: Detail-Features (Overlay, Evolution, Typ-Effektivität).
+

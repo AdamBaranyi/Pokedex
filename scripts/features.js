@@ -159,3 +159,4 @@ function renderEvolutionChain(chain) {
         `).join('<span class="evo-arrow">→</span>');
     }
 }
+
