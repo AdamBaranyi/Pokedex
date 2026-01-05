@@ -1,4 +1,11 @@
 /* Global Styles */
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 100 900;
+    src: url('assets/fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+}
+
 :root {
     --bg-color: #121212;
     --card-bg: #1e1e1e;

@@ -167,3 +167,10 @@
         flex-wrap: wrap; /* Allow stats to wrap if needed */
     }
 }
+
+@media (max-width: 320px) {
+    .close-btn {
+        right: 5px;
+        top: 5px;
+    }
+}
