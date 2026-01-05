@@ -6,6 +6,8 @@
     <title>Pokedex</title>
     <link rel="icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" type="image/png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
@@ -18,12 +20,13 @@
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Logo" class="logo">
                 <h1>Pokedex</h1>
             </div>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search Pokemon..." onkeyup="handleSearchKeyUp(event)">
-                <button id="search-button" onclick="searchPokemon()" disabled>Search</button>
-            </div>
+            <section class="search-container" aria-label="Search">
+                <input type="text" id="search-input" placeholder="Search..." onkeyup="handleSearchKeyUp(event)">
+                <button id="search-button" onclick="searchPokemon()" disabled>🔍</button>
+                <button id="filter-toggle" onclick="toggleFilters()" class="filter-toggle-btn">⚡</button>
+            </section>
         </div>
-        <div class="filter-wrapper" id="filter-wrapper">
+        <nav class="filter-wrapper" id="filter-wrapper" aria-label="Type Filters">
              <button class="filter-btn active" onclick="filterByType('all')">All</button>
              <button class="filter-btn" onclick="filterByType('grass')">Grass</button>
              <button class="filter-btn" onclick="filterByType('fire')">Fire</button>
@@ -43,13 +46,13 @@
              <button class="filter-btn" onclick="filterByType('dragon')">Dragon</button>
              <button class="filter-btn" onclick="filterByType('steel')">Steel</button>
              <button class="filter-btn" onclick="filterByType('dark')">Dark</button>
-        </div>
+        </nav>
     </header>
 
     <main class="main-content">
-        <div id="pokedex-list" class="pokemon-grid">
+        <section id="pokedex-list" class="pokemon-grid" aria-label="Pokemon List">
             <!-- Pokemon cards will be rendered here -->
-        </div>
+        </section>
         
         <div id="loading-container" class="loading-container d-none">
             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="pokeball-spinner" alt="Loading">

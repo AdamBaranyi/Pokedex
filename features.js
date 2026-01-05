@@ -1,5 +1,3 @@
-/* Feature: Detail Overlay & Helpers */
-
 async function fetchFlavorText(url) {
     try {
         const response = await fetch(url);
@@ -14,7 +12,6 @@ async function fetchFlavorText(url) {
 function renderOverlay(pokemon, description) {
     const container = document.getElementById('overlay-pokemon-data');
     
-    // Reset and add dynamic background
     container.className = 'pokemon-detail-card';
     container.classList.add(`bg-${pokemon.types[0]}`);
 
@@ -64,34 +61,30 @@ function closeOverlay(event) {
     document.body.style.overflow = 'auto';
 }
 
-/* Feature: Type Relations */
 async function loadTypeRelations(pokemon) {
     const cached = localStorage.getItem(`type_relations_${pokemon.id}`);
     if (cached) { renderTypeRelations(JSON.parse(cached)); return; }
 
     try {
-        const typePromises = pokemon.types.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(res => res.json()));
-        const typeData = await Promise.all(typePromises);
+        const typeData = await fetchDamageRelations(pokemon.types);
+        const relations = calculateTypeRelations(typeData);
 
-        const relations = {
-            strong: new Set(),
-            weak: new Set()
-        };
-
-        typeData.forEach(data => {
-            data.damage_relations.double_damage_to.forEach(t => relations.strong.add(t.name));
-            data.damage_relations.double_damage_from.forEach(t => relations.weak.add(t.name));
-        });
-
-        const result = {
-            strong: Array.from(relations.strong),
-            weak: Array.from(relations.weak)
-        };
-
-        trySaveToStorage(`type_relations_${pokemon.id}`, result);
-        renderTypeRelations(result);
-
+        trySaveToStorage(`type_relations_${pokemon.id}`, relations);
+        renderTypeRelations(relations);
     } catch (e) { console.error('Relations Error:', e); }
+}
+
+async function fetchDamageRelations(types) {
+    return Promise.all(types.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(res => res.json())));
+}
+
+function calculateTypeRelations(typeData) {
+    const relations = { strong: new Set(), weak: new Set() };
+    typeData.forEach(data => {
+        data.damage_relations.double_damage_to.forEach(t => relations.strong.add(t.name));
+        data.damage_relations.double_damage_from.forEach(t => relations.weak.add(t.name));
+    });
+    return { strong: Array.from(relations.strong), weak: Array.from(relations.weak) };
 }
 
 function renderTypeRelations(relations) {
