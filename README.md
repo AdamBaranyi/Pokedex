@@ -29,6 +29,8 @@ Eine moderne, responsive Pokedex-Webanwendung, entwickelt mit JavaScript, HTML u
 ## Projektstruktur
 
 - `index.html`: Hauptstruktur und Container-Elemente.
-- `style.css`: Alle Styles, Animationen und Responsive-Regeln.
+- `style.css`: Basis-Styles & Layout.
+- `components.css`: UI-Komponenten (Karten, Buttons, Overlay).
+- `responsive.css`: Media Queries für mobile Anpassungen.
 - `script.js`: Kern-Logik (Initialisierung, Suche, Liste).
 - `features.js`: Detail-Features (Overlay, Evolution, Typ-Effektivität).
