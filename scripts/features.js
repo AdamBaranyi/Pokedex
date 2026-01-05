@@ -1,8 +1,4 @@
-/**
- * Ruft den englischen Beschreibungstext für eine Pokémon-Spezies ab.
- * @param {string} url - Die URL der Spezies-Daten.
- * @returns {Promise<string>} Der Beschreibungstext oder eine Fallback-Nachricht.
- */
+// Lädt den Beschreibungstext für ein Pokémon
 async function fetchFlavorText(url) {
     try {
         const response = await fetch(url);
@@ -14,11 +10,7 @@ async function fetchFlavorText(url) {
     }
 }
 
-/**
- * Rendert das Pokémon-Detail-Overlay mit Daten und Beschreibung.
- * @param {Object} pokemon - Das Pokémon-Datenobjekt.
- * @param {string} description - Die Textbeschreibung.
- */
+// Zeigt das Detail-Overlay an
 function renderOverlay(pokemon, description) {
     const container = document.getElementById('overlay-pokemon-data');
     
@@ -28,12 +20,7 @@ function renderOverlay(pokemon, description) {
     container.innerHTML = getOverlayHtml(pokemon, description);
 }
 
-/**
- * Generiert den HTML-String für den Overlay-Inhalt.
- * @param {Object} pokemon - Das Pokémon-Datenobjekt.
- * @param {string} description - Die Textbeschreibung.
- * @returns {string} Der HTML-String.
- */
+// Erstellt das HTML für das Overlay
 function getOverlayHtml(pokemon, description) {
     return `
         <img src="${pokemon.image}" class="detail-img">
@@ -53,11 +40,7 @@ function getOverlayHtml(pokemon, description) {
     `;
 }
 
-/**
- * Generiert HTML für die Pokémon-Statistiken.
- * @param {Array} stats - Array von Statistik-Objekten.
- * @returns {string} HTML-String für Statistiken.
- */
+// Erstellt HTML für die Statuswerte
 function getStatsHtml(stats) {
     return stats.map(s => `
         <div class="stat-row">
@@ -67,11 +50,7 @@ function getStatsHtml(stats) {
     `).join('');
 }
 
-/**
- * Formatiert Statistik-Namen für bessere Lesbarkeit (z.B. 'special-attack' -> 'Sp. Atk').
- * @param {string} name - Der rohe Statistik-Name.
- * @returns {string} Der formatierte Name.
- */
+// Formatiert die Namen der Statuswerte
 function formatStatName(name) {
     return name
         .replace('special-', 'Sp. ')
@@ -81,21 +60,14 @@ function formatStatName(name) {
         .replace('speed', 'Speed');
 }
 
-/**
- * Schließt das Detail-Overlay und stellt das Scrollen des Body wieder her.
- * @param {Event} event - Das Klick-Ereignis (optional).
- */
+// Schließt das Overlay
 function closeOverlay(event) {
     if (event) event.preventDefault();
     document.getElementById('overlay').classList.add('d-none');
     document.body.style.overflow = 'auto';
 }
 
-/**
- * Lädt und berechnet Typ-Beziehungen (Stärken/Schwächen) für ein Pokémon.
- * Nutzt Caching, um API-Anfragen zu minimieren.
- * @param {Object} pokemon - Das Pokémon-Datenobjekt.
- */
+// Lädt die Typ-Vor- und Nachteile
 async function loadTypeRelations(pokemon) {
     const cached = localStorage.getItem(`type_relations_${pokemon.id}`);
     if (cached) { renderTypeRelations(JSON.parse(cached)); return; }
@@ -109,20 +81,12 @@ async function loadTypeRelations(pokemon) {
     } catch (e) { console.error('Relations Error:', e); }
 }
 
-/**
- * Ruft Schadensbeziehungsdaten für eine Liste von Typen ab.
- * @param {Array<string>} types - Liste der Typ-Namen.
- * @returns {Promise<Array>} Array von Schadensbeziehungsdaten.
- */
+// Holt Schaden-Daten von der API
 async function fetchDamageRelations(types) {
     return Promise.all(types.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(res => res.json())));
 }
 
-/**
- * Berechnet starke/schwache Beziehungen basierend auf Typ-Daten.
- * @param {Array} typeData - Rohe Typ-Daten von der API.
- * @returns {Object} Objekt mit Arrays für starke und schwache Typ-Namen.
- */
+// Berechnet Stärken und Schwächen
 function calculateTypeRelations(typeData) {
     const relations = { strong: new Set(), weak: new Set() };
     typeData.forEach(data => {
@@ -132,10 +96,7 @@ function calculateTypeRelations(typeData) {
     return { strong: Array.from(relations.strong), weak: Array.from(relations.weak) };
 }
 
-/**
- * Rendert den Typ-Beziehungs-Block im Overlay.
- * @param {Object} relations - Objekt mit Arrays für stark/schwach.
- */
+// Zeigt die Typ-Beziehungen im Overlay an
 function renderTypeRelations(relations) {
     const container = document.getElementById('type-relations-container');
     if (!container) return; // Wait for overlay render
@@ -158,11 +119,7 @@ function renderTypeRelations(relations) {
 
 /* Evolution Chain */
 
-/**
- * Lädt und rendert die Entwicklungskette für ein Pokémon.
- * Nutzt Caching.
- * @param {Object} pokemon - Das Pokémon-Datenobjekt.
- */
+// Lädt die Entwicklungskette
 async function loadEvolutionChain(pokemon) {
     const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);
     if (cached) { renderEvolutionChain(JSON.parse(cached)); return; }
@@ -177,11 +134,7 @@ async function loadEvolutionChain(pokemon) {
     } catch (e) { console.error('Evo Error:', e); }
 }
 
-/**
- * Parst die rekursive Entwicklungsketten-Daten in ein flaches Array.
- * @param {Object} chain - Das rekursive Ketten-Objekt.
- * @returns {Array} Array der Entwicklungsstufen.
- */
+// Wandelt die verschachtelte Entwicklungskette in eine Liste um
 function parseEvolutionChain(chain) {
     const result = [];
     let current = chain;
@@ -196,10 +149,7 @@ function parseEvolutionChain(chain) {
     return result;
 }
 
-/**
- * Rendert die Entwicklungsketten-Karten.
- * @param {Array} chain - Liste der Entwicklungsstufen.
- */
+// Zeigt die Entwicklungsschritte an
 function renderEvolutionChain(chain) {
     const container = document.getElementById('evolution-container');
     if (container) {
