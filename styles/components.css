@@ -1,5 +1,23 @@
+
 /* Komponenten */
-/* Hintergrund-Typ-Klassen */
+
+.pokemon-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 250px; 
+    max-width: 350px; 
+    min-width: 250px; 
+}
+
+/* Hintergrund-Typ-Klassen (Platziert NACH .pokemon-card für korrekte Kaskadierung) */
 .bg-grass { background: linear-gradient(135deg, var(--type-grass), #2e4a1a); }
 .bg-fire { background: linear-gradient(135deg, var(--type-fire), #5c2600); }
 .bg-water { background: linear-gradient(135deg, var(--type-water), #1a3c7a); }
@@ -18,22 +36,6 @@
 .bg-dark { background: linear-gradient(135deg, var(--type-dark), #2e231c); }
 .bg-steel { background: linear-gradient(135deg, var(--type-steel), #4a4a54); }
 .bg-flying { background: linear-gradient(135deg, var(--type-flying), #483d69); }
-
-.pokemon-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-    flex: 1 1 250px; 
-    max-width: 350px; 
-    min-width: 250px; 
-}
 
 .pokemon-card:hover {
     transform: translateY(-5px);
