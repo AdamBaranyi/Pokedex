@@ -1,7 +1,7 @@
 /**
- * Fetches the English flavor text (description) for a Pokemon species.
- * @param {string} url - The URL of the species data.
- * @returns {Promise<string>} The flavor text or a fallback message.
+ * Ruft den englischen Beschreibungstext für eine Pokémon-Spezies ab.
+ * @param {string} url - Die URL der Spezies-Daten.
+ * @returns {Promise<string>} Der Beschreibungstext oder eine Fallback-Nachricht.
  */
 async function fetchFlavorText(url) {
     try {
@@ -15,9 +15,9 @@ async function fetchFlavorText(url) {
 }
 
 /**
- * Renders the Pokemon details overlay with data and description.
- * @param {Object} pokemon - The Pokemon data object.
- * @param {string} description - The flavor text description.
+ * Rendert das Pokémon-Detail-Overlay mit Daten und Beschreibung.
+ * @param {Object} pokemon - Das Pokémon-Datenobjekt.
+ * @param {string} description - Die Textbeschreibung.
  */
 function renderOverlay(pokemon, description) {
     const container = document.getElementById('overlay-pokemon-data');
@@ -29,10 +29,10 @@ function renderOverlay(pokemon, description) {
 }
 
 /**
- * Generates the HTML string for the overlay content.
- * @param {Object} pokemon - The Pokemon data object.
- * @param {string} description - The flavor text description.
- * @returns {string} The HTML string.
+ * Generiert den HTML-String für den Overlay-Inhalt.
+ * @param {Object} pokemon - Das Pokémon-Datenobjekt.
+ * @param {string} description - Die Textbeschreibung.
+ * @returns {string} Der HTML-String.
  */
 function getOverlayHtml(pokemon, description) {
     return `
@@ -54,9 +54,9 @@ function getOverlayHtml(pokemon, description) {
 }
 
 /**
- * Generates HTML for the Pokemon's stats.
- * @param {Array} stats - Array of stat objects.
- * @returns {string} HTML string for stats.
+ * Generiert HTML für die Pokémon-Statistiken.
+ * @param {Array} stats - Array von Statistik-Objekten.
+ * @returns {string} HTML-String für Statistiken.
  */
 function getStatsHtml(stats) {
     return stats.map(s => `
@@ -68,9 +68,9 @@ function getStatsHtml(stats) {
 }
 
 /**
- * Formats stat names for better readability (e.g., 'special-attack' -> 'Sp. Atk').
- * @param {string} name - The raw stat name.
- * @returns {string} The formatted name.
+ * Formatiert Statistik-Namen für bessere Lesbarkeit (z.B. 'special-attack' -> 'Sp. Atk').
+ * @param {string} name - Der rohe Statistik-Name.
+ * @returns {string} Der formatierte Name.
  */
 function formatStatName(name) {
     return name
@@ -82,8 +82,8 @@ function formatStatName(name) {
 }
 
 /**
- * Closes the detail overlay and restores body scrolling.
- * @param {Event} event - The click event (optional).
+ * Schließt das Detail-Overlay und stellt das Scrollen des Body wieder her.
+ * @param {Event} event - Das Klick-Ereignis (optional).
  */
 function closeOverlay(event) {
     if (event) event.preventDefault();
@@ -92,9 +92,9 @@ function closeOverlay(event) {
 }
 
 /**
- * Loads and calculates type relations (strengths/weaknesses) for a Pokemon.
- * Uses caching to minimize API requests.
- * @param {Object} pokemon - The Pokemon data object.
+ * Lädt und berechnet Typ-Beziehungen (Stärken/Schwächen) für ein Pokémon.
+ * Nutzt Caching, um API-Anfragen zu minimieren.
+ * @param {Object} pokemon - Das Pokémon-Datenobjekt.
  */
 async function loadTypeRelations(pokemon) {
     const cached = localStorage.getItem(`type_relations_${pokemon.id}`);
@@ -110,18 +110,18 @@ async function loadTypeRelations(pokemon) {
 }
 
 /**
- * Fetches damage relation data for a list of types.
- * @param {Array<string>} types - List of type names.
- * @returns {Promise<Array>} Array of damage relation data.
+ * Ruft Schadensbeziehungsdaten für eine Liste von Typen ab.
+ * @param {Array<string>} types - Liste der Typ-Namen.
+ * @returns {Promise<Array>} Array von Schadensbeziehungsdaten.
  */
 async function fetchDamageRelations(types) {
     return Promise.all(types.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(res => res.json())));
 }
 
 /**
- * Calculates strong/weak relations based on type data.
- * @param {Array} typeData - Raw type data from API.
- * @returns {Object} Object containing arrays of strong and weak type names.
+ * Berechnet starke/schwache Beziehungen basierend auf Typ-Daten.
+ * @param {Array} typeData - Rohe Typ-Daten von der API.
+ * @returns {Object} Objekt mit Arrays für starke und schwache Typ-Namen.
  */
 function calculateTypeRelations(typeData) {
     const relations = { strong: new Set(), weak: new Set() };
@@ -133,8 +133,8 @@ function calculateTypeRelations(typeData) {
 }
 
 /**
- * Renders the type relations block in the overlay.
- * @param {Object} relations - Object with strong/weak arrays.
+ * Rendert den Typ-Beziehungs-Block im Overlay.
+ * @param {Object} relations - Objekt mit Arrays für stark/schwach.
  */
 function renderTypeRelations(relations) {
     const container = document.getElementById('type-relations-container');
@@ -159,9 +159,9 @@ function renderTypeRelations(relations) {
 /* Evolution Chain */
 
 /**
- * Loads and renders the evolution chain for a Pokemon.
- * Uses caching.
- * @param {Object} pokemon - The Pokemon data object.
+ * Lädt und rendert die Entwicklungskette für ein Pokémon.
+ * Nutzt Caching.
+ * @param {Object} pokemon - Das Pokémon-Datenobjekt.
  */
 async function loadEvolutionChain(pokemon) {
     const cached = localStorage.getItem(`evo_chain_${pokemon.id}`);
@@ -178,9 +178,9 @@ async function loadEvolutionChain(pokemon) {
 }
 
 /**
- * Parses the recursive evolution chain data into a flat array.
- * @param {Object} chain - The recursive chain object.
- * @returns {Array} Array of evolution stages.
+ * Parst die rekursive Entwicklungsketten-Daten in ein flaches Array.
+ * @param {Object} chain - Das rekursive Ketten-Objekt.
+ * @returns {Array} Array der Entwicklungsstufen.
  */
 function parseEvolutionChain(chain) {
     const result = [];
@@ -197,8 +197,8 @@ function parseEvolutionChain(chain) {
 }
 
 /**
- * Renders the evolution chain cards.
- * @param {Array} chain - List of evolution stages.
+ * Rendert die Entwicklungsketten-Karten.
+ * @param {Array} chain - Liste der Entwicklungsstufen.
  */
 function renderEvolutionChain(chain) {
     const container = document.getElementById('evolution-container');

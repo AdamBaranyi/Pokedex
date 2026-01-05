@@ -5,8 +5,8 @@ let currentDetailId = 0;
 const LIMIT = 30;
 
 /**
- * Loads a batch of Pokemon from the PokeAPI.
- * Uses pagination via currentOffset.
+ * Lädt eine Charge von Pokémon von der PokeAPI.
+ * Verwendet Paginierung über currentOffset.
  */
 async function loadPokemon() {
     if (isLoading) return;
@@ -21,9 +21,9 @@ async function loadPokemon() {
 }
 
 /**
- * Processes a list of Pokemon URLs, fetches details for each,
- * and updates the global list and UI.
- * @param {string[]} urls - List of Pokemon URLs to fetch.
+ * Verarbeitet eine Liste von Pokémon-URLs, ruft Details für jedes ab
+ * und aktualisiert die globale Liste und die Benutzeroberfläche.
+ * @param {string[]} urls - Liste der abzurufenden Pokémon-URLs.
  */
 async function processPokemonBatch(urls) {
     const promises = urls.map(url => getPokemonDetails(url));
@@ -33,19 +33,19 @@ async function processPokemonBatch(urls) {
 }
 
 /**
- * Helper to add new items to an array without duplicates (simplified).
- * @param {Array} original - Original array.
- * @param {Array} newItems - New items to add.
- * @returns {Array} Combined array.
+ * Hilfsfunktion zum Hinzufügen neuer Elemente zu einem Array ohne Duplikate (vereinfacht).
+ * @param {Array} original - Ursprüngliches Array.
+ * @param {Array} newItems - Neue hinzuzufügende Elemente.
+ * @returns {Array} Kombiniertes Array.
  */
 function pushUnique(original, newItems) {
     return [...original, ...newItems]; // Simplified for now
 }
 
 /**
- * Fetches or retrieves cached Pokemon details.
- * @param {string} url - The URL for the Pokemon data.
- * @returns {Promise<Object>} Pokemon details object.
+ * Ruft Pokémon-Details ab oder lädt sie aus dem Cache.
+ * @param {string} url - Die URL für die Pokémon-Daten.
+ * @returns {Promise<Object>} Pokémon-Detailobjekt.
  */
 async function getPokemonDetails(url) {
     const id = getPokemonIdFromUrl(url);
@@ -55,10 +55,10 @@ async function getPokemonDetails(url) {
 }
 
 /**
- * Fetches Pokemon data from API, simplifies it, and caches it.
- * @param {string} url - API URL.
- * @param {string} id - Pokemon ID.
- * @returns {Promise<Object>} Simplified Pokemon object.
+ * Ruft Pokémon-Daten von der API ab, vereinfacht sie und speichert sie im Cache.
+ * @param {string} url - API-URL.
+ * @param {string} id - Pokémon-ID.
+ * @returns {Promise<Object>} Vereinfachtes Pokémon-Objekt.
  */
 async function fetchAndCachePokemon(url, id) {
     const data = await (await fetch(url)).json();
@@ -68,18 +68,18 @@ async function fetchAndCachePokemon(url, id) {
 }
 
 /**
- * Extracts Pokemon ID from its API URL.
- * @param {string} url - The URL (e.g., .../pokemon/1/).
- * @returns {string} The ID (e.g., "1").
+ * Extrahiert die Pokémon-ID aus ihrer API-URL.
+ * @param {string} url - Die URL (z.B. .../pokemon/1/).
+ * @returns {string} Die ID (z.B. "1").
  */
 function getPokemonIdFromUrl(url) {
     return url.split('/').filter(Boolean).pop();
 }
 
 /**
- * Safely tries to save data to localStorage.
- * @param {string} id - Identifier key.
- * @param {Object} data - Data to stringify and save.
+ * Versucht sicher, Daten im localStorage zu speichern.
+ * @param {string} id - Identifikationsschlüssel.
+ * @param {Object} data - Zu stringifizierende und speichernde Daten.
  */
 function trySaveToStorage(id, data) {
     try { localStorage.setItem(`pokemon_${id}`, JSON.stringify(data)); } 
@@ -87,9 +87,9 @@ function trySaveToStorage(id, data) {
 }
 
 /**
- * Reduces raw API data to essential fields needed for the app.
- * @param {Object} data - Raw API response.
- * @returns {Object} Simplified Pokemon object.
+ * Reduziert rohe API-Daten auf die für die App benötigten wesentlichen Felder.
+ * @param {Object} data - Rohe API-Antwort.
+ * @returns {Object} Vereinfachtes Pokémon-Objekt.
  */
 function simplifyPokemonData(data) {
     return {
@@ -103,8 +103,8 @@ function simplifyPokemonData(data) {
 }
 
 /**
- * Renders a list of Pokemon cards to the DOM.
- * @param {Array} pokemonList - List of Pokemon objects to render.
+ * Rendert eine Liste von Pokémon-Karten in das DOM.
+ * @param {Array} pokemonList - Liste der zu rendernden Pokémon-Objekte.
  */
 function renderPokemonBatch(pokemonList) {
     const list = document.getElementById('pokedex-list');
@@ -116,9 +116,9 @@ function renderPokemonBatch(pokemonList) {
 }
 
 /**
- * Generates HTML for a single Pokemon card.
- * @param {Object} pokemon - Pokemon object.
- * @returns {string} HTML string.
+ * Generiert HTML für eine einzelne Pokémon-Karte.
+ * @param {Object} pokemon - Pokémon-Objekt.
+ * @returns {string} HTML-String.
  */
 function getCardHtml(pokemon) {
     const mainType = pokemon.types[0];
@@ -134,8 +134,8 @@ function getCardHtml(pokemon) {
 }
 
 /**
- * Handles the "Load More" button click.
- * Loads either general Pokemon or typed-filtered Pokemon based on mode.
+ * Behandelt den Klick auf den "Mehr laden"-Button.
+ * Lädt entweder allgemeine Pokémon oder nach Typ gefilterte Pokémon, basierend auf dem Modus.
  */
 function loadMorePokemon() {
     if (typeMode) {
@@ -146,8 +146,8 @@ function loadMorePokemon() {
 }
 
 /**
- * Toggles the loading state UI (spinner, button disable).
- * @param {boolean} loading - True if loading, false otherwise.
+ * Schaltet die Ladezustands-UI um (Spinner, Button deaktivieren).
+ * @param {boolean} loading - True wenn geladen wird, sonst false.
  */
 function setLoadingState(loading) {
     isLoading = loading;
@@ -166,16 +166,16 @@ function setLoadingState(loading) {
 /* Details / Lazy Loading*/
 
 /**
- * Opens the specific Pokemon detail overlay.
- * Initiates async fetching of extra data (flavor text, evolution, etc.).
- * @param {number} id - The Pokemon ID to open.
+ * Öffnet das spezifische Pokémon-Detail-Overlay.
+ * Startet das asynchrone Abrufen zusätzlicher Daten (Beschreibungstext, Entwicklung usw.).
+ * @param {number} id - Die zu öffnende Pokémon-ID.
  */
 async function openDetail(id) {
     currentDetailId = id;
     const pokemon = allPokemon.find(p => p.id === id);
     if (!pokemon) return;
 
-    let description = 'Loading description...';
+    let description = 'Lade Beschreibung...';
     renderOverlay(pokemon, description);
     document.getElementById('overlay').classList.remove('d-none');
     document.body.style.overflow = 'hidden';
@@ -195,9 +195,9 @@ let typeMode = false;
 let typePokemonList = []; 
 
 /**
- * Filters the displayed Pokemon by a specific type (or 'all').
- * Handles UI updates and data reloading.
- * @param {string} type - The type to filter by (e.g., 'fire', 'water').
+ * Filtert die angezeigten Pokémon nach einem bestimmten Typ (oder 'all').
+ * Behandelt UI-Aktualisierungen und das Neuladen von Daten.
+ * @param {string} type - Der zu filternde Typ (z.B. 'fire', 'water').
  */
 async function filterByType(type) {
     if (currentTypeFilter === type) return;
@@ -215,8 +215,8 @@ async function filterByType(type) {
 }
 
 /**
- * Updates the visual state of filter buttons.
- * @param {string} type - The currently active type.
+ * Aktualisiert den visuellen Zustand der Filter-Buttons.
+ * @param {string} type - Der aktuell aktive Typ.
  */
 function updateFilterUI(type) {
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -228,7 +228,7 @@ function updateFilterUI(type) {
 }
 
 /**
- * Resets the Pokedex data state (clear list, reset offset, clear search).
+ * Setzt den Pokedex-Datenzustand zurück (Liste leeren, Offset zurücksetzen, Suche leeren).
  */
 function resetPokedexData() {
     allPokemon = [];
@@ -238,8 +238,8 @@ function resetPokedexData() {
 }
 
 /**
- * Loads a batch of Pokemon of a specific type.
- * @param {string} type - The type to load.
+ * Lädt eine Charge von Pokémon eines bestimmten Typs.
+ * @param {string} type - Der zu ladende Typ.
  */
 async function loadTypePokemon(type) {
     setLoadingState(true);
@@ -256,8 +256,8 @@ async function loadTypePokemon(type) {
 }
 
 /**
- * Fetches the list of all Pokemon for a specific type.
- * @param {string} type - The type name.
+ * Ruft die Liste aller Pokémon für einen bestimmten Typ ab.
+ * @param {string} type - Der Typ-Name.
  */
 async function fetchTypeData(type) {
     const data = await (await fetch(`https://pokeapi.co/api/v2/type/${type}`)).json();
@@ -265,7 +265,7 @@ async function fetchTypeData(type) {
 }
 
 /**
- * Updates visibility of the 'Load More' button based on data availability.
+ * Aktualisiert die Sichtbarkeit des 'Mehr laden'-Buttons basierend auf Datenverfügbarkeit.
  */
 function updateLoadMoreButton() {
     const btn = document.getElementById('load-more-btn');
@@ -274,7 +274,7 @@ function updateLoadMoreButton() {
 
 
 /**
- * Filters the current Pokemon list based on the search input.
+ * Filtert die aktuelle Pokémon-Liste basierend auf der Sucheingabe.
  */
 function searchPokemon() {
     const query = document.getElementById('search-input').value.toLowerCase();
@@ -288,9 +288,9 @@ function searchPokemon() {
 }
 
 /**
- * Renders search results or shows an error message if none found.
- * @param {Array} filtered - Filtered Pokemon list.
- * @param {HTMLElement} list - DOM element container.
+ * Rendert Suchergebnisse oder zeigt eine Fehlermeldung, wenn keine gefunden wurden.
+ * @param {Array} filtered - Gefilterte Pokémon-Liste.
+ * @param {HTMLElement} list - DOM-Element-Container.
  */
 function updateSearchResult(filtered, list) {
     if (filtered.length === 0) {
@@ -302,8 +302,8 @@ function updateSearchResult(filtered, list) {
 }
 
 /**
- * Handles key interactions in the search input (Enter key & validation).
- * @param {KeyboardEvent} event - The key event.
+ * Behandelt Tasteninteraktionen im Suchfeld (Enter-Taste & Validierung).
+ * @param {KeyboardEvent} event - Das Tastenereignis.
  */
 function handleSearchKeyUp(event) {
     const input = document.getElementById('search-input');
@@ -320,7 +320,7 @@ function handleSearchKeyUp(event) {
 /*Navigation*/
 
 /**
- * Navigate to the next Pokemon in the list.
+ * Navigiert zum nächsten Pokémon in der Liste.
  */
 function nextPokemon() {
     const index = allPokemon.findIndex(p => p.id === currentDetailId);
@@ -330,7 +330,7 @@ function nextPokemon() {
 }
 
 /**
- * Navigate to the previous Pokemon in the list.
+ * Navigiert zum vorherigen Pokémon in der Liste.
  */
 function previousPokemon() {
     const index = allPokemon.findIndex(p => p.id === currentDetailId);
@@ -342,7 +342,7 @@ function previousPokemon() {
 /*Reset Pokedex*/
 
 /**
- * Resets the Pokedex to its initial state (All types).
+ * Setzt den Pokedex auf seinen Anfangszustand zurück (Alle Typen).
  */
 function resetPokedex() {
     currentTypeFilter = null; 
@@ -352,7 +352,7 @@ function resetPokedex() {
 /* Filter Toggle */
 
 /**
- * Toggles visibility of the filter menu on mobile devices.
+ * Schaltet die Sichtbarkeit des Filtermenüs auf Mobilgeräten um.
  */
 function toggleFilters() {
     const wrapper = document.getElementById('filter-wrapper');
@@ -362,7 +362,7 @@ function toggleFilters() {
 /*Reset Search Form*/
 
 /**
- * Clears the search input and resets error messages.
+ * Leert das Suchfeld und setzt Fehlermeldungen zurück.
  */
 function resetSearchForm() {
     document.getElementById('search-input').value = '';
@@ -373,7 +373,7 @@ function resetSearchForm() {
 /*Initialization*/
 
 /**
- * Initializes the application by loading initial data.
+ * Initialisiert die Anwendung durch Laden der ersten Daten.
  */
 function init() {
     resetSearchForm();
