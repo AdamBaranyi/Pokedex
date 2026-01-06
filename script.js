@@ -13,7 +13,7 @@ async function loadPokemon() {
         const data = await (await fetch(url)).json();
         await processPokemonBatch(data.results.map(p => p.url));
         currentOffset += LIMIT;
-    } catch (e) { console.error('Error:', e); } 
+    } catch (e) { console.error('Fehler:', e); } 
     finally { setLoadingState(false); }
 }
 
@@ -27,7 +27,7 @@ async function processPokemonBatch(urls) {
 
 // Fügt neue Elemente zum Array hinzu
 function pushUnique(original, newItems) {
-    return [...original, ...newItems]; // Simplified for now
+    return [...original, ...newItems]; // Vorerst vereinfacht
 }
 
 // Holt Pokémon-Details (aus Cache oder API)
@@ -134,6 +134,30 @@ async function openDetail(id) {
     renderOverlay(pokemon, description);
     loadEvolutionChain(pokemon);
     loadTypeRelations(pokemon);
+    updateNavigationButtons();
+}
+
+// Aktualisiert die Sichtbarkeit der Navigationspfeile basierend auf dem aktuellen Index
+function updateNavigationButtons() {
+    const index = allPokemon.findIndex(p => p.id === currentDetailId);
+    const leftArrow = document.querySelector('.nav-arrow.left');
+    const rightArrow = document.querySelector('.nav-arrow.right');
+
+    if (leftArrow) {
+        if (index <= 0) {
+            leftArrow.style.visibility = 'hidden'; 
+        } else {
+            leftArrow.style.visibility = 'visible';
+        }
+    }
+
+    if (rightArrow) {
+        if (index >= allPokemon.length - 1) {
+            rightArrow.style.visibility = 'hidden';
+        } else {
+            rightArrow.style.visibility = 'visible';
+        }
+    }
 }
 
 let currentTypeFilter = 'all';
@@ -185,7 +209,7 @@ async function loadTypePokemon(type) {
         currentOffset += LIMIT;
         updateLoadMoreButton();
     } catch (e) {
-        console.error('Type Load Error:', e);
+        console.error('Typ Ladefehler:', e);
     } finally { setLoadingState(false); }
 }
 
@@ -280,5 +304,6 @@ function init() {
     resetSearchForm();
     loadPokemon();
 }
+
 
 

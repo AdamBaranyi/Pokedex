@@ -4,9 +4,9 @@ async function fetchFlavorText(url) {
         const response = await fetch(url);
         const data = await response.json();
         const entry = data.flavor_text_entries.find(e => e.language.name === 'en');
-        return entry ? entry.flavor_text.replace(/\f/g, ' ') : 'No description available.';
+        return entry ? entry.flavor_text.replace(/\f/g, ' ') : 'Keine Beschreibung verfügbar.';
     } catch {
-        return 'Could not load description.';
+        return 'Beschreibung konnte nicht geladen werden.';
     }
 }
 
@@ -33,10 +33,10 @@ function getOverlayHtml(pokemon, description) {
             ${getStatsHtml(pokemon.stats)}
         </div>
         
-        <div id="type-relations-container" class="type-relations-container">Loading relations...</div>
+        <div id="type-relations-container" class="type-relations-container">Lade Beziehungen...</div>
 
         <h3 style="margin-top: 1.5rem;">Evolution</h3>
-        <div id="evolution-container" class="evolution-container">Loading...</div>
+        <div id="evolution-container" class="evolution-container">Lade...</div>
     `;
 }
 
@@ -54,10 +54,10 @@ function getStatsHtml(stats) {
 function formatStatName(name) {
     return name
         .replace('special-', 'Sp. ')
-        .replace('attack', 'Atk')
-        .replace('defense', 'Def')
-        .replace('hp', 'Hp')
-        .replace('speed', 'Speed');
+        .replace('attack', 'Angriff')
+        .replace('defense', 'Vert.')
+        .replace('hp', 'KP')
+        .replace('speed', 'Init');
 }
 
 // Schließt das Overlay
@@ -78,7 +78,7 @@ async function loadTypeRelations(pokemon) {
 
         trySaveToStorage(`type_relations_${pokemon.id}`, relations);
         renderTypeRelations(relations);
-    } catch (e) { console.error('Relations Error:', e); }
+    } catch (e) { console.error('Beziehungs-Fehler:', e); }
 }
 
 // Holt Schaden-Daten von der API
@@ -99,17 +99,17 @@ function calculateTypeRelations(typeData) {
 // Zeigt die Typ-Beziehungen im Overlay an
 function renderTypeRelations(relations) {
     const container = document.getElementById('type-relations-container');
-    if (!container) return; // Wait for overlay render
+    if (!container) return; // Warte auf Overlay-Rendering
 
     container.innerHTML = `
         <div class="relation-group">
-            <span class="relation-title">Strong Against</span>
+            <span class="relation-title">Stark gegen</span>
             <div class="relation-tags">
                 ${relations.strong.length ? relations.strong.map(type => `<span class="type-badge bg-${type}">${type}</span>`).join('') : '<span>-</span>'}
             </div>
         </div>
         <div class="relation-group">
-            <span class="relation-title">Weak Against</span>
+            <span class="relation-title">Schwach gegen</span>
             <div class="relation-tags">
                 ${relations.weak.length ? relations.weak.map(type => `<span class="type-badge bg-${type}">${type}</span>`).join('') : '<span>-</span>'}
             </div>
@@ -129,7 +129,7 @@ async function loadEvolutionChain(pokemon) {
         
         trySaveToStorage(`evo_chain_${pokemon.id}`, chain);
         renderEvolutionChain(chain);
-    } catch (e) { console.error('Evo Error:', e); }
+    } catch (e) { console.error('Evo Fehler:', e); }
 }
 
 // Wandelt die verschachtelte Entwicklungskette in eine Liste um
