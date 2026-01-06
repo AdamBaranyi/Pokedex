@@ -220,7 +220,7 @@ function updateSearchResult(filtered, list) {
         document.getElementById('error-message').classList.remove('d-none');
     } else {
         document.getElementById('error-message').classList.add('d-none');
-        filtered.forEach(p => list.innerHTML += getCardHtml(p));
+        list.innerHTML = filtered.map(p => getCardHtml(p)).join('');
     }
 }
 
@@ -228,12 +228,15 @@ function updateSearchResult(filtered, list) {
 function handleSearchKeyUp(event) {
     const input = document.getElementById('search-input');
     const btn = document.getElementById('search-button');
-    const isValid = input.value.length >= 3;
+    const query = input.value.toLowerCase();
+    const isValid = query.length >= 3;
     
     btn.disabled = !isValid;
 
-    if (event.key === 'Enter' && isValid) {
+    if (isValid) {
         searchPokemon();
+    } else if (query.length === 0) {
+        resetPokedex();
     }
 }
 
